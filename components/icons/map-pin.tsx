@@ -1,0 +1,18 @@
+export default function MapPinIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      stroke="currentColor"
+      strokeWidth="2"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 12.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+      <path d="M12 22c2-4 8-6.582 8-12a8 8 0 1 0-16 0c0 5.418 6 8 8 12Z" />
+    </svg>
+  );
+}
