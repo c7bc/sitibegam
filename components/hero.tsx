@@ -58,10 +58,10 @@ export default function Hero({ content }: HeroProps) {
             </div>
           </div>
 
-          {/* Imagem com efeito diagonal */}
+          {/* Imagem */}
           <div className="relative mt-16 h-70 w-full md:h-96 lg:mt-0 lg:h-148 lg:w-1/2">
             <Image
-              className="size-full object-cover lg:[clip-path:polygon(10%_0%,_100%_0%,_100%_100%,_0%_100%)]"
+              className="size-full object-cover rounded-lg"
               src={data.imageUrl}
               alt={data.imageAlt}
               fill
