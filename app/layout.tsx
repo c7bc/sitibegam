@@ -19,6 +19,9 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: "SITIBEGAM - Sindicato dos Trabalhadores de Bebidas em Geral",
   description: "SITIBEGAM - Sindicato dos Trabalhadores de Bebidas em Geral - Página Inicial",
+  icons: {
+    icon: "/image.png",
+  },
 };
 
 export default function RootLayout({
