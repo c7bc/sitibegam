@@ -9,6 +9,7 @@ import type {
   PayloadSindicatoPage,
   PayloadJuridicoPage,
   PayloadServicosPage,
+  PayloadActCct,
 } from '@/types/payload'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
@@ -276,5 +277,33 @@ export async function getServicosPageData(
   } catch (error) {
     console.error('Error fetching servicos page:', error)
     return null
+  }
+}
+
+// Get ACTs or CCTs for a specific site
+export async function getActsCcts(
+  siteId: string | number,
+  type: 'ACT' | 'CCT'
+): Promise<PayloadActCct[]> {
+  'use cache'
+  cacheLife('days')
+  cacheTag('acts-ccts', `acts-ccts-${type}`)
+
+  try {
+    const params = new URLSearchParams({
+      'where[site][equals]': String(siteId),
+      'where[type][equals]': type,
+      sort: '-year',
+      limit: '200',
+      depth: '2',
+    })
+
+    const response = await fetchAPI<PayloadResponse<PayloadActCct>>(
+      `/api/acts-ccts?${params}`
+    )
+    return response.docs
+  } catch (error) {
+    console.error('Error fetching acts/ccts:', error)
+    return []
   }
 }

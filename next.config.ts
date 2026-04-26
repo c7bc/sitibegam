@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+// rebuild trigger
 const nextConfig: NextConfig = {
   cacheComponents: true,
   images: {
@@ -17,6 +18,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.public.blob.vercel-storage.com',
       },
     ],
   },

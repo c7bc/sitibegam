@@ -10,7 +10,7 @@ export default function PublicationsHero({
   description,
 }: PublicationsHeroProps) {
   return (
-    <div className="flex w-full max-w-3xl flex-col items-center text-center mx-auto">
+    <div className="flex w-full max-w-3xl flex-col">
       {badge && (
         <span className="text-sm font-semibold text-brand-secondary md:text-md">
           {badge}

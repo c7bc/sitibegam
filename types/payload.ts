@@ -100,6 +100,11 @@ export interface PayloadSite {
     }
   }
 
+  slides?: Array<{
+    id: string
+    image: PayloadMedia
+  }>
+
   hero: {
     badge?: string
     badgeText?: string
@@ -149,6 +154,54 @@ export interface PayloadAnnouncementCard {
   updatedAt: string
 }
 
+// Denúncia (canal de denúncias)
+export type DenunciaCategoria =
+  | 'assedio-moral'
+  | 'assedio-sexual'
+  | 'discriminacao'
+  | 'irregularidade-trabalhista'
+  | 'outra'
+
+export type DenunciaStatus =
+  | 'recebida'
+  | 'em-analise'
+  | 'encaminhada'
+  | 'resolvida'
+  | 'arquivada'
+
+export interface PayloadDenuncia {
+  id: string | number
+  protocolo: string
+  categoria: DenunciaCategoria
+  descricao: string
+  anonimo: boolean
+  nome?: string
+  email?: string
+  telefone?: string
+  empresa?: string
+  anexo?: PayloadMedia
+  status: DenunciaStatus
+  notaInterna?: string
+  site: PayloadSite | string | number
+  createdAt: string
+  updatedAt: string
+}
+
+// ACT / CCT type
+export interface PayloadActCct {
+  id: string | number
+  type: 'ACT' | 'CCT'
+  title: string
+  year: number
+  company?: string
+  description?: string
+  file?: PayloadMedia
+  publishedAt?: string
+  site: PayloadSite | string | number
+  createdAt: string
+  updatedAt: string
+}
+
 // API Response types
 export interface PayloadResponse<T> {
   docs: T[]
@@ -171,6 +224,7 @@ export interface NewsItem {
   date: string
   title: string
   link: string
+  excerpt?: string
 }
 
 export interface CategoryNews {
@@ -190,6 +244,12 @@ export interface NavItem {
   label: string
   href: string
   isButton?: boolean
+}
+
+export interface HeroSlide {
+  id: string
+  imageUrl: string
+  imageAlt: string
 }
 
 export interface HeroContent {

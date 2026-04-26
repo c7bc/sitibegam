@@ -9,17 +9,17 @@ interface HeroProps {
 
 // Default content for fallback
 const defaultContent: HeroContent = {
-  badge: "Unidos pela Voz!",
-  badgeText: "Junte-se à força dos Radialistas",
-  title: "Fortaleça sua voz. Fortaleça sua categoria.",
+  badge: "Unidos pela Categoria!",
+  badgeText: "Junte-se à força do SITIBEGAM",
+  title: "Fortaleça sua categoria. Garanta seus direitos.",
   description:
-    "O Sindicato dos Radialistas é mais do que uma entidade: é o eco da sua dignidade profissional. Ao se sindicalizar, você defende seus direitos, amplia sua representatividade e fortalece quem dá vida ao som do Brasil.",
+    "O SITIBEGAM representa os trabalhadores das indústrias de bebidas e águas minerais do Pará. Ao se sindicalizar, você defende seus direitos, amplia sua representatividade e fortalece quem move a indústria.",
   primaryButtonText: "Ver benefícios",
   primaryButtonHref: "/servicos",
   secondaryButtonText: "Sindicalize-se agora",
   secondaryButtonHref: "/sindicalize-se",
   imageUrl: "/hero.jpeg",
-  imageAlt: "Radialista em estúdio de rádio",
+  imageAlt: "Trabalhador da indústria de bebidas",
 };
 
 export default function Hero({ content }: HeroProps) {
@@ -33,7 +33,7 @@ export default function Hero({ content }: HeroProps) {
             <BadgeLink
               href={data.secondaryButtonHref}
               label={data.badge || "Unidos pela Voz!"}
-              text={data.badgeText || "Junte-se à força dos Radialistas"}
+              text={data.badgeText || "Junte-se à força do SITIBEGAM"}
             />
 
             <h1 className="mt-4 text-display-md font-semibold text-primary md:text-display-lg lg:text-display-xl">
@@ -58,10 +58,10 @@ export default function Hero({ content }: HeroProps) {
             </div>
           </div>
 
-          {/* Imagem */}
+          {/* Imagem com efeito diagonal */}
           <div className="relative mt-16 h-70 w-full md:h-96 lg:mt-0 lg:h-148 lg:w-1/2">
             <Image
-              className="size-full object-cover rounded-lg"
+              className="size-full object-cover lg:[clip-path:polygon(10%_0%,_100%_0%,_100%_100%,_0%_100%)]"
               src={data.imageUrl}
               alt={data.imageAlt}
               fill

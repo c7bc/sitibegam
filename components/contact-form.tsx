@@ -268,7 +268,7 @@ export default function ContactForm({ contactInfo, siteId }: ContactFormProps) {
             </svg>
           </div>
           <h3 className="font-semibold text-primary mb-2">Telefone</h3>
-          <p className="text-sm text-secondary">{contactInfo?.phone || "(91) 3231-3059"}</p>
+          <p className="text-sm text-secondary">{contactInfo?.phone || "(91) 3000-0000"}</p>
         </div>
 
         <div className="text-center p-6 bg-gray-50 rounded-lg">
@@ -315,7 +315,7 @@ export default function ContactForm({ contactInfo, siteId }: ContactFormProps) {
           </div>
           <h3 className="font-semibold text-primary mb-2">Endereço</h3>
           <p className="text-sm text-secondary">
-            {contactInfo?.address || "Rua dos Radialistas, 123\nBelém - PA"}
+            {contactInfo?.address || "Rua do SITIBEGAM, 123\nBelém - PA"}
           </p>
         </div>
       </div>

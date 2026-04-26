@@ -60,12 +60,28 @@ input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
 }
 
-/* Font family settings: Lato for paragraphs, Baskervville for everything else */
+/* Fonte única: Roboto em todos os elementos, variando pesos */
 * {
-    font-family: var(--font-baskervville);
+    font-family: var(--font-roboto), system-ui, -apple-system, sans-serif;
 }
 
-p,
-p * {
-    font-family: var(--font-lato);
+/* Títulos: peso médio por padrão — cor fica a cargo do componente pra preservar
+   contraste em cards sobre imagem/gradiente. */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+/* News ticker animation */
+@keyframes ticker-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.animate-ticker {
+    animation: ticker-scroll 30s linear infinite;
+}
+
+.animate-ticker:hover {
+    animation-play-state: paused;
 }

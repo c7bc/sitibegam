@@ -27,7 +27,7 @@ const defaultItems: ContentItem[] = [
     category: "Notícia",
     date: "3 de novembro de 2025",
     title: "Sindicato conquista direitos importantes para a categoria",
-    description: "Confira as últimas conquistas do SITIBEGAM",
+    description: "Confira as últimas conquistas do SINRAD-PA",
     link: "#",
   },
   {
@@ -37,7 +37,7 @@ const defaultItems: ContentItem[] = [
     category: "Artigo",
     date: "1 de novembro de 2025",
     title: "Entenda seus direitos trabalhistas",
-    description: "Saiba mais sobre os direitos dos trabalhadores de bebidas",
+    description: "Saiba mais sobre os direitos dos trabalhadores SITIBEGAM",
     link: "#",
   },
   {
@@ -47,14 +47,14 @@ const defaultItems: ContentItem[] = [
     category: "Evento",
     date: "30 de outubro de 2025",
     title: "Próximos eventos do sindicato",
-    description: "Participe das atividades do SITIBEGAM",
+    description: "Participe das atividades do SINRAD-PA",
     link: "#",
   },
 ];
 
 export default function ContentShowcase({
   title = "Fique por dentro",
-  description = "Acompanhe as últimas novidades e conquistas do SITIBEGAM",
+  description = "Acompanhe as últimas novidades e conquistas do SINRAD-PA",
   items = defaultItems,
   buttonText = "Ver mais",
   buttonHref = "#",

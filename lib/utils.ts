@@ -9,6 +9,7 @@ import type {
   CategoryNews,
   CategorizedContent,
   HeroContent,
+  HeroSlide,
   FooterContent,
   CTAContent,
   AnnouncementContent,
@@ -17,6 +18,16 @@ import type {
 
 // API URL for building absolute image URLs
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
+
+// Vercel Blob public URL — usado para servir imagens diretamente, sem depender do rewrite no backend
+const BLOB_BASE_URL = process.env.NEXT_PUBLIC_BLOB_URL || 'https://t5nhsatjphczs4ej.public.blob.vercel-storage.com'
+
+// Transforma /api/media/file/<filename> em URL direta do Vercel Blob
+function mediaPathToBlobUrl(relativeUrl: string): string | null {
+  const match = relativeUrl.match(/^\/api\/media\/file\/(.+)$/)
+  if (!match) return null
+  return `${BLOB_BASE_URL}/media/${match[1]}`
+}
 
 // Format ISO date to Portuguese format (e.g., "3 de novembro de 2025")
 export function formatDate(isoDate: string): string {
@@ -50,6 +61,10 @@ export function getImageUrl(
     return relativeUrl
   }
 
+  // Se for uma URL de media do Payload, aponta direto pro Vercel Blob
+  const blobUrl = mediaPathToBlobUrl(relativeUrl)
+  if (blobUrl) return blobUrl
+
   // Build absolute URL from API_URL
   return `${API_URL}${relativeUrl}`
 }
@@ -64,8 +79,27 @@ export function getCategoryName(post: PayloadPost): string {
   return (category as PayloadCategory).title
 }
 
+// Extract plain text from Lexical rich text content
+function extractTextFromLexical(content: unknown): string {
+  if (!content || typeof content !== 'object') return ''
+  const root = (content as { root?: { children?: unknown[] } }).root
+  if (!root?.children) return ''
+  const texts: string[] = []
+  function walk(nodes: unknown[]) {
+    for (const node of nodes) {
+      if (typeof node !== 'object' || !node) continue
+      const n = node as { text?: string; children?: unknown[] }
+      if (n.text) texts.push(n.text)
+      if (n.children) walk(n.children)
+    }
+  }
+  walk(root.children)
+  return texts.join(' ')
+}
+
 // Transform PayloadPost to NewsItem for frontend components
 export function transformPostToNewsItem(post: PayloadPost): NewsItem {
+  const fullText = extractTextFromLexical(post.content)
   return {
     id: post.id,
     imageUrl: getImageUrl(post.heroImage, 'medium'),
@@ -74,6 +108,7 @@ export function transformPostToNewsItem(post: PayloadPost): NewsItem {
     date: formatDate(post.publishedAt || post.createdAt),
     title: post.title,
     link: `/publicacoes/${post.slug}`,
+    excerpt: fullText.length > 200 ? fullText.slice(0, 200) + '…' : fullText,
   }
 }
 
@@ -115,16 +150,16 @@ export function groupPostsByCategory(
 // Transform site data to HeroContent
 export function transformSiteToHeroContent(site: PayloadSite): HeroContent {
   return {
-    badge: site.hero?.badge || 'Força dos trabalhadores de bebidas',
-    badgeText: site.hero?.badgeText || 'Força dos trabalhadores de bebidas',
+    badge: site.hero?.badge || 'Unidos pela Voz!',
+    badgeText: site.hero?.badgeText || 'Junte-se à força do SITIBEGAM',
     title: site.hero?.title || 'Fortaleça sua voz. Fortaleça sua categoria.',
-    description: site.hero?.description || 'O SITIBEGAM é mais do que uma entidade: é a defesa da sua dignidade profissional na indústria de bebidas.',
+    description: site.hero?.description || 'O SITIBEGAM é mais do que uma entidade: é o eco da sua dignidade profissional.',
     primaryButtonText: site.hero?.primaryButtonText || 'Ver benefícios',
     primaryButtonHref: site.hero?.primaryButtonHref || '/servicos',
     secondaryButtonText: site.hero?.secondaryButtonText || 'Sindicalize-se agora',
     secondaryButtonHref: site.hero?.secondaryButtonHref || '/sindicalize-se',
     imageUrl: getImageUrl(site.hero?.image, 'xlarge') || '/hero.jpeg',
-    imageAlt: site.hero?.imageAlt || 'Trabalhadores da indústria de bebidas',
+    imageAlt: site.hero?.imageAlt || 'Trabalhador da indústria de bebidas',
   }
 }
 
@@ -144,7 +179,7 @@ export function transformSiteToFooterContent(site: PayloadSite): FooterContent {
       url: getImageUrl(site.footer.logo, 'thumbnail'),
       alt: site.footer.logo.alt || site.name,
     } : undefined,
-    description: site.footer?.description || 'Representando e defendendo os direitos dos trabalhadores da indústria de bebidas com força e dedicação.',
+    description: site.footer?.description || 'Representando e defendendo os direitos dos trabalhadores SITIBEGAM com força e dedicação.',
     navItems: site.header?.navItems || defaultNavItems,
     socialLinks: {
       facebook: site.footer?.socialLinks?.facebook,
@@ -181,6 +216,16 @@ export function transformAnnouncementToContent(
     primaryButtonText: announcement.primaryButtonText || 'Saiba mais',
     primaryButtonHref: announcement.primaryButtonHref,
   }
+}
+
+// Transform site slides to HeroSlide array for carousel
+export function transformSiteToSlides(site: PayloadSite): HeroSlide[] {
+  if (!site.slides || site.slides.length === 0) return []
+  return site.slides.map(slide => ({
+    id: slide.id,
+    imageUrl: getImageUrl(slide.image, 'xlarge'),
+    imageAlt: slide.image?.alt || 'Banner',
+  }))
 }
 
 // Get navigation items from site
